@@ -11,6 +11,7 @@ from rest_framework import generics
 from rest_framework.permissions import IsAuthenticated
 from .tasks import import_parts_from_csv
 from rest_framework.parsers import FormParser, MultiPartParser
+from .pagination import CustomPagination
 
 class AssociatePartsToCarModels(APIView):
     permission_classes = [IsAdminRole]
@@ -72,6 +73,7 @@ class PartListView(generics.ListAPIView):
     queryset = Part.objects.all()
     serializer_class = PartSerializer
     permission_classes = [IsAuthenticated]
+    pagination_class = CustomPagination
 
 class PartDetailView(generics.RetrieveAPIView):
     queryset = Part.objects.all()
