@@ -10,4 +10,4 @@ class CarModel(models.Model):
     required = ['name', 'manufacturer', 'year', 'details']
 
     def __str__(self):
-        return f"{self.name} - {self.manufacturer} ({self.year})"
+        return f"{self.name or ''} - {self.manufacturer or ''} ({self.year or ''})"
