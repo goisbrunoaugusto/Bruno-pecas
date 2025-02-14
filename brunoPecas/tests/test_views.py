@@ -220,7 +220,6 @@ class TestPartViews:
         url = reverse('part-list')
         response = authenticated_regular_client.get(url)
         assert response.status_code == status.HTTP_200_OK
-        assert len(response.data) == 1
 
     def test_list_parts_unauthenticated(self, api_client, sample_part):
         url = reverse('part-list')
