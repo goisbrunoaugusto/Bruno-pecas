@@ -14,12 +14,12 @@ from users.permissions import IsAdminRole
 class CarModelListView(generics.ListAPIView):
     queryset = CarModel.objects.all()
     serializer_class = CarModelSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
 
 class CarModelDetailView(generics.RetrieveAPIView):
     queryset = CarModel.objects.all()
     serializer_class = CarModelDetailSerializer
-    permission_classes = [AllowAny]
+    permission_classes = [IsAuthenticated]
     lookup_field = 'id'
 
 class CarModelCreateView(generics.CreateAPIView):
@@ -40,6 +40,8 @@ class CarModelDeleteView(generics.DestroyAPIView):
     lookup_field = 'id'
 
 class ListCarModelsForPart(APIView):
+    permission_classes = [IsAuthenticated]
+    
     def get(self, request, part_id):
         try:
             part = Part.objects.get(id=part_id)
