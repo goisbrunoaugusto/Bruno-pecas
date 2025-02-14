@@ -15,6 +15,23 @@ Prerequisites:
 ```bash
 docker compose up --build
 ```
+## Tests
+To run tests you'll need to access the container
+```bash
+sudo docker exec -it <ContainerID> /bin/sh
+```
+The Container ID can be found by running
+```bash
+sudo docker ps
+```
+
+Then run the command
+```bash
+pytest
+```
+
+## Swagger Documentation
+The Swagger documentation can be found after the project is running in the url http://localhost:8000/swagger/
 
 ## Postman Documentation
 The Postman collection can be found inside the Postman folder in this project
