@@ -8,6 +8,7 @@ from .views import (
     PartDestroyView, 
     ListPartsForCarModel,
     PartDetailView,
+    PartCSVImportView
     )
 
 urlpatterns = [
@@ -19,4 +20,5 @@ urlpatterns = [
     path('<int:id>/update/', PartUpdateView.as_view(), name='part-update'),
     path('<int:id>/delete/', PartDestroyView.as_view(), name='part-delete'),
     path('<int:id>/details/', PartDetailView.as_view(), name='part-detail'),
+    path('import-parts/', PartCSVImportView.as_view(), name='import-parts'),
 ]

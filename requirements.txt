@@ -5,3 +5,5 @@ psycopg2
 pytest==8.3.4
 pytest-django==4.10.0
 pytest-factoryboy==2.7.0
+redis==5.2.1
+celery==5.4.0

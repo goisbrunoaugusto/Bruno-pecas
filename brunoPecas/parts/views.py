@@ -8,7 +8,9 @@ from .models import Part
 from cars.models import CarModel
 from .serializers import PartSerializer, PartDetailsSerializer
 from rest_framework import generics
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.permissions import IsAuthenticated
+from .tasks import import_parts_from_csv
+from rest_framework.parsers import FormParser, MultiPartParser
 
 class AssociatePartsToCarModels(APIView):
     permission_classes = [IsAdminRole]
@@ -93,3 +95,26 @@ class PartDestroyView(generics.DestroyAPIView):
     serializer_class = PartSerializer
     permission_classes = [IsAdminRole]
     lookup_field = 'id'
+
+class PartCSVImportView(APIView):
+    parser_classes = [FormParser, MultiPartParser]  # Para aceitar upload de arquivos
+    permission_classes = [IsAdminRole]  # Somente administradores podem acessar
+
+    def post(self, request, format=None):
+        # Verifica se o arquivo foi enviado
+        if 'file' not in request.data:
+            return Response(
+                {"error": "Nenhum arquivo enviado."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+
+        # Lê o conteúdo do arquivo CSV
+        csv_file = request.data['file'].read().decode('utf-8')
+
+        # Executa a tarefa Celery de forma assíncrona
+        import_parts_from_csv.delay(csv_file)
+
+        return Response(
+            {"message": "Arquivo CSV recebido. A importação está sendo processada."},
+            status=status.HTTP_202_ACCEPTED
+        )
